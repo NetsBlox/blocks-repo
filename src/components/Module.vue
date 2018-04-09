@@ -26,7 +26,8 @@ export default {
         this.description = module.description;
         this.hash = module.hash;
         console.log('loaded doc', module);
-      });
+      })
+      .catch(alert);
   },
   methods: {
     // fetches a documents and throws an error if doc doesn't exist
