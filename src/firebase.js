@@ -15,3 +15,21 @@ firebase.initializeApp({
 });
 
 export const db = firebase.firestore();
+export const modules = db.collection('modules');
+
+// fully loads a collection
+export function loadCol(col, whereParams) {
+  let docPromise = whereParams ? col.where(...whereParams).get() : col.get();
+  let results = [];
+  return docPromise
+    .then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        let obj = {
+          _id: doc.id,
+          ...doc.data()
+        };
+        results.push(obj);
+      });
+      return results;
+    });
+}
