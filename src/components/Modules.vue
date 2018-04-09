@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { modules, loadCol } from '@/firebase';
+import { modulesRef, loadCol } from '@/firebase';
 export default {
   name: 'Modules',
   data() {
@@ -24,11 +24,11 @@ export default {
   },
   methods: {
     fetchModules() {
-      loadCol(modules)
+      loadCol(modulesRef)
         .then(mods => {
           console.log(mods);
           this.modules = mods;
-        })
+        });
     }
   }
 };

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { modules, loadCol } from '@/firebase';
+import { modulesRef } from '@/firebase';
 export default {
   name: 'Module',
   data() {

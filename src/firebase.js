@@ -15,7 +15,7 @@ firebase.initializeApp({
 });
 
 export const db = firebase.firestore();
-export const modules = db.collection('modules');
+export const modulesRef = db.collection('modules');
 
 // fully loads a collection
 export function loadCol(col, whereParams) {

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { modules } from '@/firebase';
+import { modulesRef } from '@/firebase';
 export default {
   name: 'New',
   data() {
@@ -34,14 +34,14 @@ export default {
   methods: {
     postModule() {
       // post module
-      modules.add({
+      modulesRef.add({
         name: this.name,
         description: this.description,
-        hash: this.hash,
+        hash: this.hash
       })
         .then(function() {
-          console.log("Document successfully written!");
-        })
+          console.log('Document successfully written!');
+        });
     }
   }
 };
