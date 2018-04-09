@@ -1,10 +1,11 @@
 <template>
   <div class="container">
-    <h1>Modules</h1>
-    <p>Available modules in the repo</p>
-    <div class="collection">
-      <a v-for="module in modules" href="#!" class="collection-item">{{ module.name }}</a>
-      </div>
+    <h1>Modules <router-link :to="{name: 'New'}"><i class="material-icons">add</i></router-link></h1>
+    <ul class="collection with-header">
+      <li class="collection-header">Available modules in the repo</li>
+      <router-link v-for="module in modules" v-bind:key="module._id" href="#!" class="collection-item" :to="{name: 'Module', params: {id: module._id}}"> {{ module.name }}
+      </router-link>
+      </ul>
     <ul>
     </ul>
   </div>
