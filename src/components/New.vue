@@ -1,18 +1,50 @@
 <template>
-  <h1>Post a new module</h1>
+  <div>
+    <h1>Post a new module</h1>
+    <div class="container">
+      <div class="input-field">
+        <input placeholder="Placeholder" v-model="name" type="text">
+        <label>Name</label>
+      </div>
+      <div class="input-field">
+        <input placeholder="Placeholder" v-model="description" type="text">
+        <label>Description</label>
+      </div>
+      <!-- <input type="file" name="" value="" /> -->
+      <button @click="postModule()">Submit</button>
+    </div>
+    <ul>
+      <li></li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import { db } from '../firebase';
+import { modules } from '@/firebase';
 export default {
-  name: 'HelloWorld',
-  data () {
+  name: 'New',
+  data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      db: db
+      name: '',
+      description: '',
+      hash: '',
+      modules: []
+    };
+  },
+  methods: {
+    postModule() {
+      // post module
+      modules.add({
+        name: this.name,
+        description: this.description,
+        hash: this.hash,
+      })
+        .then(function() {
+          console.log("Document successfully written!");
+        })
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
