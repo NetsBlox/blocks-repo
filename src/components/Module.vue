@@ -1,12 +1,9 @@
 <template>
   <div class="container">
-    <h1>Module {{ id }}</h1>
-    <p>Available modules in the repo</p>
-    <div class="collection">
-      <a v-for="module in modules" href="#!" class="collection-item">{{ module.name }}</a>
-      </div>
-    <ul>
-    </ul>
+    <h2>Module {{ name }}</h2>
+    <p>{{ description }}</p>
+    <button class="waves-effect waves-light btn">Download</button>
+    <!-- TODO edit -->
   </div>
 </template>
 
@@ -16,13 +13,33 @@ export default {
   name: 'Module',
   data() {
     return {
+      name: '',
+      description: '',
+      hash: ''
     };
   },
   props: ['id'],
   created() {
-    console.log(this.id);
+    this.fetchDoc(this.id)
+      .then(module => {
+        this.name = module.name;
+        this.description = module.description;
+        this.hash = module.hash;
+        console.log('loaded doc', module);
+      });
   },
   methods: {
+    // fetches a documents and throws an error if doc doesn't exist
+    fetchDoc(id) {
+      return modulesRef.doc(id).get()
+        .then(doc => {
+          if (doc.exists) {
+            return doc.data();
+          } else {
+            throw new Error(`document ${id} does not exist.`);
+          }
+        });
+    }
   }
 };
 </script>
