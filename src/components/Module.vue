@@ -3,7 +3,7 @@
     <h2>Module {{ name }}</h2>
     <p>{{ description }}</p>
     <ul>
-      <li v-for="file in files">{{ file.originalname }}:
+      <li v-for="file in files" :key="file.filename">{{ file.originalname }}:
         <a :href="file.path" :filename="file.originalname" class="waves-effect waves-light btn">Download</a>
       </li>
     </ul>
