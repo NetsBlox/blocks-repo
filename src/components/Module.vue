@@ -2,7 +2,11 @@
   <div class="container">
     <h2>Module {{ name }}</h2>
     <p>{{ description }}</p>
-    <button class="waves-effect waves-light btn">Download</button>
+    <ul>
+      <li v-for="file in files">{{ file.originalname }}:
+        <a :href="file.path" :filename="file.originalname" class="waves-effect waves-light btn">Download</a>
+      </li>
+    </ul>
     <!-- TODO edit -->
   </div>
 </template>
@@ -15,7 +19,7 @@ export default {
     return {
       name: '',
       description: '',
-      hash: ''
+      files: []
     };
   },
   props: ['id'],
@@ -24,7 +28,7 @@ export default {
       .then(module => {
         this.name = module.name;
         this.description = module.description;
-        this.hash = module.hash;
+        this.files = module.files;
         console.log('loaded doc', module);
       })
       .catch(alert);
