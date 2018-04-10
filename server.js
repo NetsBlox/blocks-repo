@@ -22,7 +22,14 @@ if (ENV !== 'production') {
 
 app.post('/upload', upload.array('modules', 12), function (req, res, next) {
   console.log(`received ${req.files.length} files`);
-  res.send(req.files);
+  let filesInfo = req.files.map(file => {
+    delete file.fieldname;
+    delete file.encoding;
+    delete file.destination;
+    file.path = file.path.substring('dist'.length);
+    return file;
+  });
+  res.send(filesInfo);
 })
 
 app.get('*', (req, res) => {
