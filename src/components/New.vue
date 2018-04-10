@@ -41,15 +41,14 @@ export default {
   },
   methods: {
     postModule() {
-      // TODO upload the file
       // post the metadata
       this.uploadFiles(this.getFiles())
         .then(res => {
           let uploadResults = res.data;
-          console.log(this.name, this.description, uploadResults)
           return modulesRef.add({
             name: this.name,
             description: this.description,
+            published: false,
             files: uploadResults
           });
         })
@@ -66,6 +65,7 @@ export default {
       console.log('files changed');
     },
     uploadFiles(fileList) {
+      // FIXME this should be a relative path on production
       const uploadUrl = 'http://localhost:5000/upload';
       let formData = new FormData();
       this.fileListToArr(fileList)
