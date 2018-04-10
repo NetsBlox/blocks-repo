@@ -3,6 +3,8 @@ import Router from 'vue-router';
 import New from '@/components/New';
 import Modules from '@/components/Modules';
 import Module from '@/components/Module';
+import Auth from '@/components/Auth';
+import AuthSuccess from '@/components/AuthSuccess';
 
 Vue.use(Router);
 
@@ -24,6 +26,16 @@ export default new Router({
       path: '/new',
       name: 'New',
       component: New
+    },
+    {
+      path: '/auth',
+      name: 'Auth',
+      component: Auth
+    },
+    {
+      path: '/auth/success',
+      name: 'AuthSuccess',
+      component: AuthSuccess
     }
   ]
 });
