@@ -2,13 +2,14 @@
   <div>
     <h2>Post a new module</h2>
     <div class="container">
+      <p>Share your Snap or Netsblox modules with others!</p>
       <form method="post" accept-charset="utf-8">
         <div class="input-field">
-          <input v-model="name" type="text">
+          <input v-model="module.name" type="text">
           <label>Name</label>
         </div>
         <div class="input-field">
-          <input v-model="description" type="text">
+          <input v-model="module.description" type="text">
           <label>Description</label>
         </div>
         <div class="file-field input-field">
@@ -33,8 +34,15 @@ export default {
   name: 'New',
   data() {
     return {
-      name: '',
-      description: '',
+      module: {
+        name: '',
+        description: '',
+        files: [],
+        tags: [],
+        isSnapCompatible: false,
+        isNBCompatible: false,
+        published: false
+      },
       isUploading: false
     };
   },
@@ -44,12 +52,8 @@ export default {
       this.uploadFiles(this.getFiles())
         .then(res => {
           let uploadResults = res.data;
-          return modulesRef.add({
-            name: this.name,
-            description: this.description,
-            published: false,
-            files: uploadResults
-          });
+          this.module.files = uploadResults;
+          return modulesRef.add(this.module);
         })
         .then(res => {
           console.log('Document successfully written!');
