@@ -5,12 +5,18 @@ import Modules from '@/components/Modules';
 import Module from '@/components/Module';
 import Auth from '@/components/Auth';
 import AuthSuccess from '@/components/AuthSuccess';
+import Home from '@/components/Home';
 
 Vue.use(Router);
 
 export default new Router({
   mode: 'history',
   routes: [
+    {
+      path: '/',
+      name: 'Home',
+      component: Home
+    },
     {
       path: '/modules',
       name: 'Modules',

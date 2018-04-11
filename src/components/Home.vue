@@ -1,22 +1,19 @@
 <template>
-  <div class="container">
-    <h2>Modules <router-link :to="{name: 'New'}"><i class="material-icons">add</i></router-link></h2>
-    <ul class="collection with-header">
-      <li class="collection-header">Available modules in the repo</li>
-      <router-link v-for="module in modules" v-bind:key="module._id" class="collection-item" :to="{name: 'Module', params: {id: module._id}}">
-        {{ module.name }}
-        <i class="material-icons" v-if="!module.published">warning</i>
-      </router-link>
-      </ul>
-    <ul>
-    </ul>
+  <div>
+    <h1>Module Sharing Platform</h1>
+    <p>Welcome to NetsBlox's module sharing platform.</p>
+    <Modules/>
   </div>
 </template>
 
 <script>
 import { modulesRef, loadCol } from '@/firebase';
+import Modules from '@/components/Modules';
 export default {
-  name: 'Modules',
+  name: 'Home',
+  components: {
+    Modules
+  },
   data() {
     return {
       modules: []

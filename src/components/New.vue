@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Post a new module</h1>
+    <h2>Post a new module</h2>
     <div class="container">
       <form method="post" accept-charset="utf-8">
         <div class="input-field">
@@ -17,8 +17,7 @@
             <input type="file" multiple>
           </div>
           <div class="file-path-wrapper">
-            <!-- <input type="file" multiple :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="image/*" class="input-file"> -->
-            <input class="file-path validate" required type="text" placeholder="Upload one or more files" @change="filesChanged">
+            <input class="file-path validate" :disabled="isUploading" required type="text" placeholder="Upload one or more files" @change="filesChanged">
           </div>
         </div>
         <button class="btn" @click.prevent="postModule()">Submit</button>
