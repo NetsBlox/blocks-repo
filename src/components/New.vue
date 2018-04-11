@@ -21,7 +21,7 @@
             <input class="file-path validate" :disabled="isUploading" required type="text" placeholder="Upload one or more files" @change="filesChanged">
           </div>
         </div>
-        <button class="btn" @click.prevent="postModule()">Submit</button>
+        <button class="btn" :disabled="isUploading" @click.prevent="postModule()">Submit</button>
       </form>
     </div>
   </div>
@@ -49,6 +49,7 @@ export default {
   methods: {
     postModule() {
       // post the metadata
+      this.isUploading = true;
       this.uploadFiles(this.getFiles())
         .then(res => {
           let uploadResults = res.data;
@@ -56,9 +57,15 @@ export default {
           return modulesRef.add(this.module);
         })
         .then(res => {
-          console.log('Document successfully written!');
+          this.isUploading = false;
+          this.module = {};
+          console.log('Document successfully written!', res.id);
+          this.$router.push('/modules/' + res.id);
         })
-        .catch(console.error);
+        .catch(err => {
+          this.isUploading = false;
+          console.error(err);
+        });
     },
     getFiles() {
       let files = document.querySelector('input[type="file"]').files;
