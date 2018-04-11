@@ -23,9 +23,14 @@ export default new Router({
       component: Modules
     },
     {
-      path: '/module/:id',
+      path: '/modules/:id',
       name: 'Module',
       component: Module,
+      props: true
+    },
+    {
+      path: '/module/:id',
+      redirect: '/modules/:id',
       props: true
     },
     {
