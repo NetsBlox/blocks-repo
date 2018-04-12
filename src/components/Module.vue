@@ -8,32 +8,42 @@
         <a :href="file.path" :filename="file.originalname" class="waves-effect waves-light btn">Download</a>
       </li>
     </ul>
-    <!-- TODO edit -->
+    <button class="btn" v-if="canEdit" @click="toggleEdit">Edit</button>
+    <div v-if="showEdit">
+      <New :edit="module"/>
+    </div>
   </div>
 </template>
 
 <script>
 import { modulesRef } from '@/firebase';
+import { userMixin } from '@/mixins';
+import New from '@/components/New';
+
 export default {
   name: 'Module',
   data() {
     return {
+      showEdit: false,
       module: {
-        name: '',
-        description: '',
-        files: []
       }
     };
   },
+  components: {
+    New
+  },
+  mixins: [userMixin],
   props: ['id'],
   computed: {
     images() {
+      if (!this.module.files) return [];
       let images = this.module.files.filter(f => {
         return f.mimetype.includes('image');
       });
       return images;
     },
     projectFiles() {
+      if (!this.module.files) return [];
       return this.module.files.filter(f => {
         return !f.mimetype.includes('image');
       });
@@ -53,12 +63,21 @@ export default {
       return modulesRef.doc(id).get()
         .then(doc => {
           if (doc.exists) {
-            return doc.data();
+            let theDoc = doc.data();
+            theDoc.id = id;
+            return theDoc;
           } else {
             this.module.name = 'Not found.';
             throw new Error(`document ${id} does not exist.`);
           }
         });
+    },
+    canEdit() {
+      console.log('user n mod', this.user, this.module);
+      return this.user.admin === true || (this.module.author && (this.module.author === this.user.uid));
+    },
+    toggleEdit() {
+      this.showEdit = !this.showEdit;
     }
   }
 };

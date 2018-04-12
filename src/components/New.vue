@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Post a new module</h2>
+    <h2>{{ title }}</h2>
     <div class="container">
       <p>Share your Snap or Netsblox modules with others!</p>
       <form method="post" accept-charset="utf-8">
@@ -46,21 +46,39 @@ export default {
       isUploading: false
     };
   },
+  props: ['edit'],
+  created() {
+    if (this.edit) this.module = this.edit;
+  },
+  computed: {
+    title() {
+      let msg = this.isEditing() ? 'Edit the submission' : 'Post a new module';
+      return msg;
+    }
+  },
   methods: {
+    isEditing() {
+      return this.edit;
+    },
     postModule() {
       // post the metadata
+      let filesHandles = this.getFiles();
       this.isUploading = true;
-      this.uploadFiles(this.getFiles())
-        .then(res => {
-          let uploadResults = res.data;
+      return this.uploadFiles(filesHandles)
+        .then(uploadResults => {
           this.module.files = uploadResults;
-          return modulesRef.add(this.module);
+          if (this.isEditing()) {
+            return modulesRef.doc(this.module.id).set(this.module);
+          } else {
+            return modulesRef.add(this.module);
+          }
         })
         .then(res => {
           this.isUploading = false;
-          this.module = {};
-          console.log('Document successfully written!', res.id);
-          this.$router.push('/modules/' + res.id);
+          // compute the doc id since res might b undefined (because of edit)
+          let id = res ? res.id : this.module.id;
+          console.log('Document successfully written!', id);
+          this.$router.push('/modules/' + id);
         })
         .catch(err => {
           this.isUploading = false;
@@ -75,6 +93,9 @@ export default {
       console.log('files changed');
     },
     uploadFiles(fileList) {
+      if (fileList.length === 0 && this.isEditing()) {
+        return Promise.resolve(this.module.files);
+      }
       // FIXME this should be a relative path on production
       const uploadUrl = 'http://localhost:5000/upload';
       let formData = new FormData();
@@ -86,7 +107,10 @@ export default {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      });
+      })
+        .then(({ data }) => {
+          return data;
+        });
     },
     fileListToArr(fileList) {
       // try Array.from()
