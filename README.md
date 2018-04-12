@@ -1,4 +1,4 @@
-# NetsBlox Module Repo
+# Reusable Custom Libraries
 
 Module sharing platfrom for NetsBlox
 
@@ -11,6 +11,7 @@ Module sharing platfrom for NetsBlox
   - [x] return relative path (from client's view)
   - remove redundant information
 - [x] display available downloads on module view page
+- introduce Vuex ? state management?
 - prepare homepage
 - light form vaidation
 - add setup guide
