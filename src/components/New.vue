@@ -9,7 +9,7 @@
           <label>Name</label>
         </div>
         <div class="input-field">
-          <input v-model="module.description" type="text">
+          <textarea class="materialize-textarea" v-model="module.description"></textarea>
           <label>Description</label>
         </div>
         <div class="file-field input-field">
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+/* global M */
 import { modulesRef } from '@/firebase';
 import axios from 'axios';
 export default {
@@ -49,6 +50,10 @@ export default {
   props: ['edit'],
   created() {
     if (this.edit) this.module = this.edit;
+  },
+  mounted() {
+    // reinitalize material input fields
+    M.updateTextFields();
   },
   computed: {
     title() {
