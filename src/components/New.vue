@@ -31,6 +31,7 @@
 <script>
 /* global M */
 import { modulesRef } from '@/firebase';
+import { userMixin } from '@/mixins';
 import axios from 'axios';
 export default {
   name: 'New',
@@ -43,7 +44,8 @@ export default {
         tags: [],
         isSnapCompatible: false,
         isNBCompatible: false,
-        published: false
+        published: false,
+        author: null
       },
       isUploading: false
     };
@@ -56,6 +58,7 @@ export default {
     // reinitalize material input fields
     M.updateTextFields();
   },
+  mixins: [userMixin],
   computed: {
     title() {
       let msg = this.isEditing() ? 'Edit the submission' : 'Post a new module';
@@ -73,10 +76,15 @@ export default {
       return this.uploadFiles(filesHandles)
         .then(uploadResults => {
           this.module.files = uploadResults;
+          console.log('posting', this.module);
           if (this.isEditing()) {
             return modulesRef.doc(this.module.id).set(this.module);
           } else {
-            return modulesRef.add(this.module);
+            // set the author if the creator is logged in
+            if (this.user.uid) this.module.author = this.user.uid;
+            // return modulesRef.add(this.module);
+            let id = new Date().getTime();
+            return modulesRef.doc(id + '').set(this.module);
           }
         })
         .then(res => {
