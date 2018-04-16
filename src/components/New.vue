@@ -21,7 +21,8 @@
             <input class="file-path validate" :disabled="isUploading" required type="text" placeholder="Upload one or more files" @change="filesChanged">
           </div>
         </div>
-        <button class="btn" :disabled="isUploading" @click.prevent="postModule()">Submit</button>
+        <button class="btn waves-effect waves-light" :disabled="isUploading" @click.prevent="postModule()">Submit <i class="material-icons right">send</i>
+</button>
       </form>
     </div>
   </div>
