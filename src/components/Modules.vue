@@ -1,15 +1,24 @@
 <template>
   <div class="container">
     <h2>Modules <router-link :to="{name: 'New'}"><i class="material-icons">add</i></router-link></h2>
-    <ul class="collection with-header">
+    <ul class="collection with-header" v-show="false">
       <li class="collection-header">Available modules in the repo</li>
       <router-link v-for="module in modules" v-bind:key="module._id" class="collection-item" :to="{name: 'Module', params: {id: module._id}}">
         {{ module.name }}
         <i class="material-icons" v-if="!module.published">warning</i>
       </router-link>
-      </ul>
-    <ul>
     </ul>
+    <div class="grid">
+      <div v-for="module in modules" v-bind:key="module._id" class="card blue-grey">
+        <div class="card-content white-text">
+          <span class="card-title">{{ module.name }}</span>
+          <p>{{ module.description }}</p>
+        </div>
+        <div class="card-action">
+          <router-link :to="{name: 'Module', params: {id: module._id}}">Open</router-link>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -31,6 +40,7 @@ export default {
       });
   },
   methods: {
+    // TODO add methods to truncate
     fetchModules(publishedOnly) {
       let modsPromise = publishedOnly ? loadCol(modulesRef, ['published', '==', true]) : loadCol(modulesRef);
       return modsPromise
@@ -43,4 +53,10 @@ export default {
 </script>
 
 <style scoped>
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 2rem;
+  /* grid-auto-rows: minmax(100px, auto); */
+}
 </style>

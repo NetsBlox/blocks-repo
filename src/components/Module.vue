@@ -1,16 +1,27 @@
 <template>
   <div class="container">
-    <h2>Module {{ module.name }}</h2>
-    <p>{{ module.description }}</p>
-    <img class="materialboxed" v-for="img in images" :src="img.path" :key="img.filename" :alt="img.originalname"/>
-    <ul>
-      <li v-for="file in projectFiles" :key="file.filename">{{ file.originalname }}:
-        <a :href="file.path" :filename="file.originalname" class="waves-effect waves-light btn">Download</a>
-      </li>
-    </ul>
-    <button class="btn" v-if="canEdit" @click="toggleEdit">Edit</button>
-    <div v-if="showEdit">
-      <New :edit="module"/>
+    <h2>Module {{ module.name }}
+      <a href="#" v-if="canEdit" @click.prevent="toggleEdit"><i class="material-icons">edit</i></a>
+    </h2>
+    <div class="grid">
+      <div class="main">
+        <img class="materialboxed" v-for="img in images" :src="img.path" :key="img.filename" :alt="img.originalname"/>
+        <p>{{ module.description }}</p>
+        <div v-if="showEdit">
+          <New :edit="module"/>
+        </div>
+      </div>
+      <div class="sidebar">
+        <ul class="collection with-header">
+          <li class="collection-header"><h5>Files</h5></li>
+          <li class="collection-item" v-for="file in projectFiles" :key="file.filename">
+            <div>
+              {{ file.originalname }}:
+              <a class="secondary-content" :href="file.path" :filename="file.originalname"> <i class="material-icons right">file_download</i> </a>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -84,7 +95,13 @@ export default {
 </script>
 
 <style scoped>
-  img {
-    max-height: 50vh;
-  }
+img {
+max-height: 50vh;
+}
+
+.grid {
+display: grid;
+grid-template-columns: 3fr 1fr;
+grid-gap: 2rem;
+}
 </style>
