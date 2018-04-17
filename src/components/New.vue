@@ -82,9 +82,7 @@ export default {
           } else {
             // set the author if the creator is logged in
             if (this.user.uid) this.module.author = this.user.uid;
-            // return modulesRef.add(this.module);
-            let id = new Date().getTime();
-            return modulesRef.doc(id + '').set(this.module);
+            return modulesRef.add(this.module);
           }
         })
         .then(res => {
@@ -92,7 +90,8 @@ export default {
           // compute the doc id since res might b undefined (because of edit)
           let id = res ? res.id : this.module.id;
           console.log('Document successfully written!', id);
-          this.$router.push('/modules/' + id);
+          alert('Your request has been submitted and will be published once it\'s approved.');
+          this.$router.push({name: 'Home'});
         })
         .catch(err => {
           this.isUploading = false;
