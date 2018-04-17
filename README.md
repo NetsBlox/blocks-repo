@@ -3,15 +3,16 @@
 Module sharing platfrom for NetsBlox
 
 # TODO
-- [ ] document edits and deletes
-  - [x] edits
-  - [ ] deletes
-- save files on the server w/ appropriate name. (hash name? extenstion)
-- store module authors?
+- file deletion support
 - introduce Vuex ? state management?
 - prepare homepage
 - light form vaidation
 - add setup guide
+- [x] document edits and deletes
+  - [x] edits
+  - [x] deletes
+- [x] store module authors?
+- [x] save files on the server w/ appropriate name. (hash name? extenstion)
 - [x] authentication
   - [x] easy check if user is admin (clientside)
 - [x] refine server response to uploaded files

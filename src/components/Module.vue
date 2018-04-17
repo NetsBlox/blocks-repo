@@ -2,6 +2,7 @@
   <div class="container">
     <h2>Module {{ module.name }}
       <a href="#" v-if="canEdit" @click.prevent="toggleEdit"><i class="material-icons">edit</i></a>
+      <a href="#" v-if="canDelete" @click.prevent="confirmAndDelete"><i class="material-icons">delete_forever</i></a>
     </h2>
     <div class="grid">
       <div class="main">
@@ -27,6 +28,7 @@
 </template>
 
 <script>
+/* global confirm */
 import { modulesRef } from '@/firebase';
 import { userMixin } from '@/mixins';
 import New from '@/components/New';
@@ -58,6 +60,12 @@ export default {
       return this.module.files.filter(f => {
         return !f.mimetype.includes('image');
       });
+    },
+    canEdit() {
+      return this.user.admin === true || (this.module.author && (this.module.author === this.user.uid));
+    },
+    canDelete() {
+      return this.user.admin === true;
     }
   },
   created() {
@@ -83,12 +91,18 @@ export default {
           }
         });
     },
-    canEdit() {
-      console.log('user n mod', this.user, this.module);
-      return this.user.admin === true || (this.module.author && (this.module.author === this.user.uid));
-    },
     toggleEdit() {
       this.showEdit = !this.showEdit;
+    },
+    confirmAndDelete() {
+      if (confirm('Are you sure you want to delete this module?')) {
+        return modulesRef.doc(this.id).delete()
+          .then(() => {
+            this.module = {};
+            this.$router.push('/');
+            // TODO delete server side
+          });
+      }
     }
   }
 };
