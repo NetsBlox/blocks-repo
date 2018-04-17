@@ -6,6 +6,7 @@ import Module from '@/components/Module';
 import Auth from '@/components/Auth';
 import AuthSuccess from '@/components/AuthSuccess';
 import Home from '@/components/Home';
+import Msg from '@/components/Msg';
 
 Vue.use(Router);
 
@@ -47,6 +48,12 @@ export default new Router({
       path: '/auth/success',
       name: 'AuthSuccess',
       component: AuthSuccess
+    },
+    {
+      path: '*',
+      name: 'Msg',
+      component: Msg,
+      props: {default: true, title: 'Wrong address', msg: 'This resource does not exits. If you believe you are getting this in error please contact us.'}
     }
   ]
 });
