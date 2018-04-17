@@ -3,10 +3,9 @@ const express = require('express'),
   multer = require('multer');
 
 const PORT = process.env.PORT || 5000,
-  UPLOADS_DIR = process.env.UPLOADS_DIR || 'dist/user-uploads/',
+  UPLOADS_DIR = process.env.UPLOADS_DIR || 'dist/user-uploads',
   ENV = process.env.ENV || 'dev';
 
-const upload = multer({dest: UPLOADS_DIR});
 
 let app = express();
 app.use(express.static('dist'))
@@ -19,6 +18,19 @@ if (ENV !== 'production') {
   });
 }
 
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, UPLOADS_DIR)
+  },
+  filename: function (req, file, cb) {
+    let ext = path.extname(file.originalname)
+    let origName = file.originalname.replace(ext, '');
+    let time = new Date().getTime();
+    cb(null, `${origName}-${time}${ext}`);
+  }
+})
+
+const upload = multer({storage: storage});
 
 app.post('/upload', upload.array('modules', 12), function (req, res, next) {
   console.log(`received ${req.files.length} files`);
