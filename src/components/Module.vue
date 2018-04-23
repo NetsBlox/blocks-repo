@@ -14,6 +14,11 @@
       </div>
       <div class="sidebar">
         <ul class="collection with-header">
+          <li class="collection-header"><h5>Properties</h5></li>
+          <li class="collection-item" v-show="isSnapComp">Snap compatible</li>
+          <li class="collection-item" v-show="isNbComp">NetsBlox compatible</li>
+        </ul>
+        <ul class="collection with-header">
           <li class="collection-header"><h5>Files</h5></li>
           <li class="collection-item" v-for="file in projectFiles" :key="file.filename">
             <div>
@@ -60,6 +65,12 @@ export default {
       return this.module.files.filter(f => {
         return !f.mimetype.includes('image');
       });
+    },
+    isSnapComp() {
+      return this.module.compats && this.module.compats.includes('snap');
+    },
+    isNbComp() {
+      return this.module.compats && this.module.compats.includes('netsblox');
     },
     canEdit() {
       return this.user.admin === true || (this.module.author && (this.module.author === this.user.uid));
