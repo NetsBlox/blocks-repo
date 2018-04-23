@@ -8,10 +8,24 @@
         <i class="material-icons" v-if="!module.published">warning</i>
       </router-link>
     </ul>
+    <div class="checkboxes">
+      <span>Filter: </span>
+      <label>
+        <input type="checkbox" value="netsblox" v-model="filter.compats">
+        <span>NetsBlox</span>
+      </label>
+      <label>
+        <input type="checkbox" value="snap" v-model="filter.compats">
+        <span>Snap</span>
+      </label>
+    </div>
+
     <div class="grid">
-      <div v-for="module in modules" v-bind:key="module._id" class="card blue-grey">
+      <div v-for="module in filteredModules" v-bind:key="module._id" class="card blue-grey">
         <div class="card-content white-text">
-          <span class="card-title">{{ module.name }}</span>
+          <span class="card-title">
+            {{ module.name }}
+          </span>
           <p>{{ module.description }}</p>
         </div>
         <div class="card-action">
@@ -28,7 +42,10 @@ export default {
   name: 'Modules',
   data() {
     return {
-      modules: []
+      modules: [],
+      filter: {
+        compats: []
+      }
     };
   },
   created() {
@@ -38,6 +55,27 @@ export default {
       .catch(() => {
         return this.fetchModules(true);
       });
+  },
+  computed: {
+    filteredModules() {
+      let mods = this.modules
+        // filter for compatibilities
+        .filter(m => {
+          let valid = true;
+          if (!m.compats) { // if it wasn't defined for this module let it slip
+            return true;
+          } else {
+            this.filter.compats.forEach(req => {
+              if (!m.compats.includes(req)){
+                valid = false;
+              }
+            });
+          }
+          return valid;
+        }) // end of compats check
+
+      return mods;
+    }
   },
   methods: {
     // TODO add methods to truncate
@@ -58,5 +96,8 @@ export default {
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 2rem;
   /* grid-auto-rows: minmax(100px, auto); */
+}
+.checkboxes label{
+  margin-left: 2rem;
 }
 </style>
