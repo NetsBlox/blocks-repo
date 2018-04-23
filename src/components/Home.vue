@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>Reusable Custom Libraies</h1>
-    <p>Welcome to NetsBlox's library sharing platform.</p>
+    <h1>Reusable Custom Blocks</h1>
+    <p>Welcome to NetsBlox's block sharing platform.</p>
     <Modules/>
   </div>
 </template>
