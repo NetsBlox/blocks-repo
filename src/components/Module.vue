@@ -87,6 +87,13 @@ export default {
       })
       .catch(alert);
   },
+  mounted() {
+    /* global M */
+    (() => {
+      var elem = document.querySelector('.materialboxed');
+      M.Materialbox.init(elem);
+    })();
+  },
   methods: {
     // fetches a documents and throws an error if doc doesn't exist
     fetchDoc(id) {
@@ -121,6 +128,7 @@ export default {
 
 <style scoped>
 img {
+  margin: 0 auto;
   max-height: 50vh;
 }
 
