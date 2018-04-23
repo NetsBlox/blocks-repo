@@ -110,12 +110,18 @@ export default {
 
 <style scoped>
 img {
-max-height: 50vh;
+  max-height: 50vh;
 }
 
 .grid {
-display: grid;
-grid-template-columns: 3fr 1fr;
-grid-gap: 2rem;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-gap: 2rem;
+}
+
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

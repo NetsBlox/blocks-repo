@@ -66,13 +66,13 @@ export default {
             return true;
           } else {
             this.filter.compats.forEach(req => {
-              if (!m.compats.includes(req)){
+              if (!m.compats.includes(req)) {
                 valid = false;
               }
             });
           }
           return valid;
-        }) // end of compats check
+        }); // end of compats check
 
       return mods;
     }
@@ -93,9 +93,9 @@ export default {
 <style scoped>
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: 2rem;
-  /* grid-auto-rows: minmax(100px, auto); */
+  grid-auto-rows: minmax(100px, auto);
 }
 .checkboxes label{
   margin-left: 2rem;
