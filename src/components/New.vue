@@ -12,6 +12,18 @@
           <textarea class="materialize-textarea" v-model="module.description"></textarea>
           <label>Description</label>
         </div>
+        <div class="checkboxes">
+          <p>Which platform(s) is this block compatible with?</p>
+          <label>
+            <input type="checkbox" value="netsblox" v-model="module.compats">
+            <span>NetsBlox</span>
+          </label>
+          <label>
+            <input type="checkbox" value="snap" v-model="module.compats">
+            <span>Snap</span>
+          </label>
+        </div>
+        <p>Upload block xml files and optional images related to the library and its functionality</p>
         <div class="file-field input-field">
           <div class="btn">
             <span>File</span>
@@ -22,7 +34,7 @@
           </div>
         </div>
         <button class="btn waves-effect waves-light" :disabled="isUploading" @click.prevent="postModule()">Submit <i class="material-icons right">send</i>
-</button>
+        </button>
       </form>
     </div>
   </div>
@@ -42,8 +54,7 @@ export default {
         description: '',
         files: [],
         tags: [],
-        isSnapCompatible: false,
-        isNBCompatible: false,
+        compats: [],
         published: false,
         author: null
       },
@@ -139,4 +150,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.checkboxes label {
+  margin-right: 2rem;
+}
 </style>
