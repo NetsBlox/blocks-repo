@@ -10,6 +10,11 @@ export const userMixin = {
   created() {
     this.listenForUser();
   },
+  computed: {
+    isAdmin() {
+      return this.user && this.user.admin;
+    }
+  },
   methods: {
     // FIXME this is not going to work for a second call (solution: state management)
     // listens for changes to user and keeps it updated
@@ -26,9 +31,6 @@ export const userMixin = {
           this.user = {}; // or maybe undefined?! vuex
         }
       });
-    },
-    isAdmin() {
-      return this.user && this.user.admin;
     }
   }
 };
