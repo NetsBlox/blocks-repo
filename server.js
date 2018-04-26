@@ -1,5 +1,6 @@
 const express = require('express'),
   path = require('path'),
+  fs = require('fs'),
   multer = require('multer');
 
 const PORT = process.env.PORT || 5000,
@@ -8,6 +9,12 @@ const PORT = process.env.PORT || 5000,
 
 
 let app = express();
+
+// ensure uploads directory exists
+if (!fs.existsSync(UPLOADS_DIR)){
+    fs.mkdirSync(UPLOADS_DIR);
+}
+
 app.use(express.static('dist'))
 
 if (ENV !== 'production') {
