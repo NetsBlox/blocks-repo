@@ -6,7 +6,7 @@
     </h2>
     <div class="grid">
       <div class="main">
-        <img class="materialboxed" v-for="img in images" :src="img.path" :key="img.filename" :alt="img.originalname"/>
+        <img  v-for="img in images" :src="img.path" :key="img.filename" :alt="img.originalname"/>
         <p>{{ module.description }}</p>
         <div v-if="showEdit">
           <New :edit="module"/>
@@ -94,11 +94,6 @@ export default {
       .catch(alert);
   },
   mounted() {
-    /* global M */
-    (() => {
-      var elem = document.querySelector('.materialboxed');
-      M.Materialbox.init(elem);
-    })();
   },
   methods: {
     // fetches a documents and throws an error if doc doesn't exist
