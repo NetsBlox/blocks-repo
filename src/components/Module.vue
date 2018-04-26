@@ -17,6 +17,9 @@
           <li class="collection-header"><h5>Properties</h5></li>
           <li class="collection-item" v-show="isSnapComp">Snap compatible</li>
           <li class="collection-item" v-show="isNbComp">NetsBlox compatible</li>
+          <li v-show="isAdmin" class="collection-item" v-bind:class="{yellow: !module.published, green: module.published}">
+            {{ module.published ? 'Published' : 'Unpublished' }}
+          </li>
         </ul>
         <ul class="collection with-header">
           <li class="collection-header"><h5>Files</h5></li>
@@ -27,6 +30,9 @@
             </div>
           </li>
         </ul>
+          <button v-show="isAdmin" @click="togglePublish" class="btn">
+            {{ module.published ? 'Unpublish' : 'Publish' }}
+          </button>
       </div>
     </div>
   </div>
@@ -121,6 +127,15 @@ export default {
             // TODO delete server side
           });
       }
+    },
+    togglePublish() {
+      // apply the effect to a copy untill its successfully change in the database
+      let modCopy = {...this.module};
+      modCopy.published = !modCopy.published;
+      return modulesRef.doc(modCopy.id).set(modCopy)
+        .then(res => {
+          this.module.published = modCopy.published; // racecond?
+        });
     }
   }
 };
