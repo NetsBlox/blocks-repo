@@ -121,7 +121,8 @@ export default {
         return Promise.resolve(this.module.files);
       }
       // FIXME this should be a relative path on production
-      const uploadUrl = 'http://localhost:5000/upload';
+      const SERVER_ADDR = '';
+      const uploadUrl = SERVER_ADDR + '/upload';
       let formData = new FormData();
       this.fileListToArr(fileList)
         .forEach((file) => {
