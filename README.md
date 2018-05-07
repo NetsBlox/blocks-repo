@@ -2,7 +2,9 @@
 
 Module sharing platfrom for NetsBlox
 
-# TODO
+## TODO
+- [x]snap vs netsblox categories or badges / logos
+- [x]clear indication of where to upload files and images
 - file deletion support
 - introduce Vuex ? state management?
 - prepare homepage
@@ -19,3 +21,10 @@ Module sharing platfrom for NetsBlox
   - [x] return relative path (from client's view)
   - remove redundant information
 - [x] display available downloads on module view page
+
+## Installation
+- requirements: node, npm
+- clone the repo
+- npm i npm
+- set the environment variables:
+  - `PORT`
