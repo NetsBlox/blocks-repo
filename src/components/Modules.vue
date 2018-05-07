@@ -21,16 +21,15 @@
     </div>
 
     <div class="grid">
-      <div v-for="module in filteredModules" v-bind:key="module._id" class="card blue-grey">
-        <div class="card-content white-text">
-          <span class="card-title">
-            {{ module.name }}
-          </span>
-          <p>{{ module.description }}</p>
-        </div>
-        <div class="card-action">
-          <router-link :to="{name: 'Module', params: {id: module._id}}">Open</router-link>
-        </div>
+      <div v-for="module in filteredModules" v-bind:key="module._id" class="card  teal">
+        <router-link :to="{name: 'Module', params: {id: module._id}}">
+          <div class="card-content white-text">
+            <span class="card-title">
+              {{ module.name }}
+            </span>
+            <p>{{ module.description }}</p>
+          </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -99,5 +98,9 @@ export default {
 }
 .checkboxes label{
   margin-left: 2rem;
+}
+
+.card:hover {
+  box-shadow: 1px 1px 2px 2px gray;
 }
 </style>
