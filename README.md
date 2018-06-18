@@ -28,3 +28,4 @@ Module sharing platfrom for NetsBlox
 - npm i npm
 - set the environment variables:
   - `PORT`
+  - `UPLOADS_DIR`
