@@ -1,11 +1,9 @@
 // express routes
-const router = require('express').Router();
-
+const router = require('express').Router({ mergeParams: true });
 const fs = require('fs');
-
 const path = require('path');
-
 const logger = require('../logger').fork('router');
+const middleware = require('./middleware');
 
 // Load the routes from routes/
 const routes = fs.readdirSync(path.join(__dirname, './'))
@@ -18,8 +16,6 @@ const routes = fs.readdirSync(path.join(__dirname, './'))
     return require(filePath);
   }) // Load the routes
   .reduce((prev, next) => prev.concat(next), []); // Merge all routes
-
-// middleware.init(this);
 
 routes.forEach(api => {
   const method = api.method.toLowerCase();
@@ -37,11 +33,12 @@ routes.forEach(api => {
   };
 
   // Add the middleware
-  // if (api.middleware) {
-  //   let args = api.middleware.map(name => middleware[name]);
-  //   args.unshift(api.url);
-  //   router.use.apply(router, args);
-  // }
+  if (api.middleware) {
+    logger.trace(`adding middlewares ${api.middleware} to ${api.url}[${api.method}]`);
+    let args = api.middleware.map(name => middleware[name]);
+    args.unshift(api.url);
+    router[api.method].apply(router, args);
+  }
 
   router.route(api.url)[method]((req, res, next) => {
     logger.trace(`got a ${method} request for ${api.url}`);
