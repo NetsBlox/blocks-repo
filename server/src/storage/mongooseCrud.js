@@ -23,7 +23,7 @@ const mongooseCrud = model => {
     },
 
     { // read one
-      url: '',
+      url: ':_id',
       method: 'get',
       handler: function(req, res) {
         const { _id } = req.params;
@@ -32,7 +32,7 @@ const mongooseCrud = model => {
     },
 
     { // update
-      url: '',
+      url: ':_id',
       method: 'put', // FIXME patch?
       handler: function(req, res) {
         const changedEntry = req.body;
@@ -41,7 +41,7 @@ const mongooseCrud = model => {
     },
 
     { // read one
-      url: '',
+      url: ':_id',
       method: 'delete',
       handler: function(req, res) {
         return model.remove({ _id: req.params._id });
