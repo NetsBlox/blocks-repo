@@ -13,8 +13,9 @@ const schema = new Schema({
   tags: [String],
   compats: [String],
   updatedAt: { type: Date, default: Date.now },
-  isPublished: { type: Boolean, default: false },
-  author: Schema.Types.ObjectId
+  createdAt: { type: Date, default: Date.now },
+  isVerified: { type: Boolean, default: false },
+  authorId: String,
 });
 
 const Upload = mongoose.model('Upload', schema);
