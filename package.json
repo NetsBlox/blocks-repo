@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config client/build/webpack.dev.conf.js",
-    "start": "node server.js",
+    "start": "node server/src",
     "lint": "eslint --ext .js,.vue src",
     "postinstall": "npm run build",
     "build": "node client/build/build.js"
