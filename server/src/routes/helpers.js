@@ -1,11 +1,10 @@
+
+// helper for creating basic crud routes for mongoose models
 const mongooseCrud = model => {
   const routes = [
     { // create
-      url: '',
-      parameters: '',
+      url: '/',
       method: 'post',
-      note: 'create',
-      // middleware: ['isLoggedIn'],
       handler: function(req, res) {
         const newEntry = req.body;
         return model.create(newEntry);
@@ -13,9 +12,8 @@ const mongooseCrud = model => {
     },
 
     { // read many
-      url: '',
+      url: '/',
       method: 'get',
-      // middleware: ['isLoggedIn'],
       handler: function(req, res) {
         let query = res.locals.query || {};
         return model.find(query);
@@ -23,7 +21,7 @@ const mongooseCrud = model => {
     },
 
     { // read one
-      url: ':_id',
+      url: '/:_id',
       method: 'get',
       handler: function(req, res) {
         const { _id } = req.params;
@@ -32,7 +30,7 @@ const mongooseCrud = model => {
     },
 
     { // update
-      url: ':_id',
+      url: '/:_id',
       method: 'put', // FIXME patch?
       handler: function(req, res) {
         const changedEntry = req.body;
@@ -41,7 +39,7 @@ const mongooseCrud = model => {
     },
 
     { // read one
-      url: ':_id',
+      url: '/:_id',
       method: 'delete',
       handler: function(req, res) {
         return model.remove({ _id: req.params._id });
@@ -50,10 +48,44 @@ const mongooseCrud = model => {
 
   ]
     .map(r => {
-      r.url = model.collection.name + '/' + r.url;
       return r;
     });
   return routes;
 };
 
-module.exports = mongooseCrud;
+
+const promiseHanlder = route => { // handle the actual sending of the results
+  let handler = route.handler;
+  route.handler = async (req, res, next) => {
+
+    if (route.customMiddleware) {
+      for (let mw of route.customMiddleware) {
+        await mw(req, res, next);
+      }
+    }
+
+    let rv = handler(req, res, next);
+    if (!rv.then) {
+      res.status(200).send(rv);
+    } else {
+      rv.then(val => {
+        if (typeof val === 'object') {
+          res.status(200).json(val);
+        } else {
+          res.status(200).send(val);
+        }
+      }).catch(e => {
+        logger.error(e);
+        // WARN could potentially leak information
+        res.status(500).send(e.message);
+      });
+    }
+  };
+  return route;
+};
+
+
+module.exports = {
+  mongooseCrud,
+  promiseHanlder,
+};
