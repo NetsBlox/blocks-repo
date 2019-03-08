@@ -22,6 +22,10 @@ Module sharing platfrom for NetsBlox
   - remove redundant information
 - [x] display available downloads on module view page
 
+- mongo version
+  - file storage backend
+    - s3 compatible solution
+
 ## Installation
 - requirements: node, npm
 - clone the repo
