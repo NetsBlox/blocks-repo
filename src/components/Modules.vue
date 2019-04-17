@@ -5,7 +5,6 @@
       <li class="collection-header">Available modules in the repo</li>
       <router-link v-for="module in modules" v-bind:key="module._id" class="collection-item" :to="{name: 'Module', params: {id: module._id}}">
         {{ module.name }}
-        <i class="material-icons" v-if="!module.published">warning</i>
       </router-link>
     </ul>
     <div class="checkboxes">
@@ -25,6 +24,7 @@
         <router-link :to="{name: 'Module', params: {id: module._id}}">
           <div class="card-content white-text">
             <span class="card-title">
+              <i class="material-icons" v-if="!module.published" title="Unconfirmed">warning</i>
               {{ module.name }}
             </span>
             <p>{{ module.description }}</p>
@@ -50,10 +50,7 @@ export default {
   created() {
     // try to get all the modules if failed: get only the published ones
     // should be switched when we have a better of looking up if the user is admin
-    this.fetchModules()
-      .catch(() => {
-        return this.fetchModules(true);
-      });
+    this.fetchModules();
   },
   computed: {
     filteredModules() {
@@ -103,4 +100,10 @@ export default {
 .card:hover {
   box-shadow: 1px 1px 2px 2px gray;
 }
+
+.card-title i {
+  font-size: 1.4rem;
+  vertical-align: middle;
+}
+
 </style>
