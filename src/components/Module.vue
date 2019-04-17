@@ -26,7 +26,7 @@
           <li class="collection-item" v-for="file in projectFiles" :key="file.filename">
             <div>
               {{ file.originalname }}:
-              <a class="secondary-content" :href="file.path" :filename="file.originalname"> <i class="material-icons right">file_download</i> </a>
+              <a class="secondary-content" :href="file.path" :filename="file.originalname" download> <i class="material-icons right">file_download</i> </a>
             </div>
           </li>
         </ul>
